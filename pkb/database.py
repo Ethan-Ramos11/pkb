@@ -39,3 +39,15 @@ def get_db_path() -> str:
     db_path = os.path.join(kk_home, "knowkeeper.db")
 
     return db_path
+
+
+def get_db_connection(db_path=None):
+    if db_path is None:
+        db_path = get_db_path
+
+    conn = sqlite3.connect(db_path)
+    conn.row_factory = dict_factory
+    conn.execute("PRAGMA foreign_keys=ON")
+
+    cursor = conn.cursor()
+    return conn, cursor
